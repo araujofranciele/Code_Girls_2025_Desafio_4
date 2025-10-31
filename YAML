@@ -1,0 +1,146 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Laboratório AWS CloudFormation – Infraestrutura Automatizada
+  Duas EC2 com Security Group, Apache e Load Balancer
+
+Parameters:
+  InstanceType:
+    Description: "Tipo de instância EC2"
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+    ConstraintDescription: "Escolha um tipo de instância permitido."
+
+  KeyName:
+    Description: "Nome da chave SSH existente para acessar as EC2"
+    Type: AWS::EC2::KeyPair::KeyName
+    ConstraintDescription: "A chave SSH deve existir na região da conta."
+
+Resources:
+  WebSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security Group para EC2 do laboratório CloudFormation"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: WebSecurityGroup
+
+  WebServer1:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: ami-0c02fb55956c7d316   # Amazon Linux 2 (ajustar conforme região)
+      KeyName: !Ref KeyName
+      SecurityGroups:
+        - !Ref WebSecurityGroup
+      Tags:
+        - Key: Name
+          Value: WebServer1
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y httpd
+          systemctl start httpd
+          systemctl enable httpd
+          echo "<html><h1>Servidor 1 - Stack CloudFormation</h1></html>" > /var/www/html/index.html
+
+  WebServer2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: ami-0c02fb55956c7d316
+      KeyName: !Ref KeyName
+      SecurityGroups:
+        - !Ref WebSecurityGroup
+      Tags:
+        - Key: Name
+          Value: WebServer2
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y httpd
+          systemctl start httpd
+          systemctl enable httpd
+          echo "<html><h1>Servidor 2 - Stack CloudFormation</h1></html>" > /var/www/html/index.html
+
+  WebLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: WebALB
+      Subnets:
+        - subnet-xxxxxx1   # Substitua pelos IDs de subnets da sua VPC
+        - subnet-xxxxxx2
+      SecurityGroups:
+        - !Ref WebSecurityGroup
+      Scheme: internet-facing
+      Type: application
+      Tags:
+        - Key: Name
+          Value: WebALB
+
+  WebTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: WebTG
+      Port: 80
+      Protocol: HTTP
+      VpcId: vpc-xxxxxx       # Substitua pelo ID da sua VPC
+      TargetType: instance
+      HealthCheckEnabled: true
+      HealthCheckPath: /
+      HealthCheckIntervalSeconds: 30
+
+  WebListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref WebLoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref WebTargetGroup
+
+  Target1:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroupAttachment
+    Properties:
+      TargetGroupArn: !Ref WebTargetGroup
+      TargetId: !Ref WebServer1
+      Port: 80
+
+  Target2:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroupAttachment
+    Properties:
+      TargetGroupArn: !Ref WebTargetGroup
+      TargetId: !Ref WebServer2
+      Port: 80
+
+Outputs:
+  SecurityGroupID:
+    Description: "ID do Security Group criado"
+    Value: !Ref WebSecurityGroup
+
+  WebServer1PublicIP:
+    Description: "IP público da instância WebServer1"
+    Value: !GetAtt WebServer1.PublicIp
+
+  WebServer2PublicIP:
+    Description: "IP público da instância WebServer2"
+    Value: !GetAtt WebServer2.PublicIp
+
+  LoadBalancerDNS:
+    Description: "DNS do Load Balancer"
+    Value: !GetAtt WebLoadBalancer.DNSName
