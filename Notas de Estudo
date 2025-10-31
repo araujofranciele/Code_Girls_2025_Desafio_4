@@ -1,0 +1,64 @@
+# Notas de Estudo – AWS CloudFormation (Infraestrutura Automatizada)
+
+## 📌 Conceitos Relevantes
+
+* **Stack:** Conjunto de recursos AWS gerenciados como uma unidade.
+* **Template:** Arquivo YAML que descreve toda a infraestrutura de forma declarativa.
+* **Resources:** Elementos provisionados automaticamente (EC2, Security Groups, Load Balancer).
+* **Parameters:** Valores dinâmicos para customizar o ambiente sem alterar o template.
+* **User Data:** Scripts que configuram instâncias EC2 na inicialização (instalação de Apache, criação de página HTML).
+* **Outputs:** Informações úteis sobre recursos criados, como IPs e DNS do Load Balancer.
+* **Elastic Load Balancer (ALB):** Distribui tráfego entre múltiplas instâncias EC2, garantindo alta disponibilidade.
+
+---
+
+## 🛠️ Serviços e Ferramentas Utilizadas
+
+* **AWS CloudFormation:** automatiza criação, atualização e exclusão de recursos.
+* **Amazon EC2:** máquinas virtuais para hospedar aplicações web.
+* **Security Group:** define regras de acesso (SSH e HTTP).
+* **Elastic Load Balancer (ALB):** balanceia tráfego entre instâncias.
+* **AWS CLI:** validação, criação e monitoramento da Stack via terminal.
+
+---
+
+## 💡 Insights e Boas Práticas
+
+1. **Automatização completa:**
+
+   * Reduz erros humanos e agiliza replicação de ambientes.
+
+2. **Parâmetros tornam o template flexível:**
+
+   * Tipo de instância, chave SSH e outras configurações podem ser ajustadas sem editar o YAML.
+
+3. **User Data é poderoso:**
+
+   * Instala e configura softwares automaticamente (Apache, páginas web, scripts).
+
+4. **Outputs ajudam na integração:**
+
+   * Permitem acessar rapidamente IPs, IDs de recursos e DNS de Load Balancer.
+
+5. **Segurança:**
+
+   * Limitar IPs em Security Groups é essencial em ambientes reais.
+   * Nunca deixar chaves SSH públicas.
+
+6. **Monitoramento e testes:**
+
+   * Validar template antes do deploy evita problemas.
+   * Testar em ambiente separado do produção garante segurança.
+
+7. **Tags organizam recursos:**
+
+   * Facilita rastreabilidade, cobrança e gerenciamento de infraestrutura.
+
+---
+
+## ⚡ Próximos Passos para Estudo
+
+* Explorar **Stacks mais complexas** com múltiplas camadas (web, aplicação, banco de dados).
+* Testar **nested stacks** (Stacks dentro de Stacks) para modularidade.
+* Integrar com **CloudWatch e SNS** para alertas e monitoramento.
+* Experimentar **atualização de Stack** e entender comportamento de rollback.
