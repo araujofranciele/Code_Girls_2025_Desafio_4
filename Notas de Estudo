@@ -1,6 +1,6 @@
 # Notas de Estudo – AWS CloudFormation (Infraestrutura Automatizada)
 
-## 📌 Conceitos Relevantes
+## Conceitos Relevantes
 
 * **Stack:** Conjunto de recursos AWS gerenciados como uma unidade.
 * **Template:** Arquivo YAML que descreve toda a infraestrutura de forma declarativa.
@@ -12,7 +12,7 @@
 
 ---
 
-## 🛠️ Serviços e Ferramentas Utilizadas
+## Serviços e Ferramentas Utilizadas
 
 * **AWS CloudFormation:** automatiza criação, atualização e exclusão de recursos.
 * **Amazon EC2:** máquinas virtuais para hospedar aplicações web.
@@ -22,7 +22,7 @@
 
 ---
 
-## 💡 Insights e Boas Práticas
+## Insights e Boas Práticas
 
 1. **Automatização completa:**
 
@@ -56,7 +56,7 @@
 
 ---
 
-## ⚡ Próximos Passos para Estudo
+## Próximos Passos para Estudo
 
 * Explorar **Stacks mais complexas** com múltiplas camadas (web, aplicação, banco de dados).
 * Testar **nested stacks** (Stacks dentro de Stacks) para modularidade.
