@@ -1,6 +1,6 @@
 # Laboratório AWS CloudFormation – Infraestrutura Automatizada
 
-## 📌 Objetivo
+## Objetivo
 
 O objetivo deste laboratório é **implementar uma infraestrutura automatizada usando AWS CloudFormation**, praticando **Infraestrutura como Código (IaC)** e criando um ambiente totalmente provisionado de forma automática.
 
@@ -14,7 +14,7 @@ Nesta Stack, criamos:
 
 ---
 
-## 📚 Conceitos Aprendidos
+## Conceitos Aprendidos
 
 * **Stack e Template**: organização de recursos AWS em um único arquivo YAML.
 * **Resources**: EC2, Security Groups e Load Balancer provisionados automaticamente.
@@ -25,7 +25,7 @@ Nesta Stack, criamos:
 
 ---
 
-## 🛠️ Serviços e Ferramentas Utilizadas
+## Serviços e Ferramentas Utilizadas
 
 * **AWS CloudFormation** – Criação, atualização e exclusão da Stack
 * **Amazon EC2** – Instâncias de máquinas virtuais
@@ -35,7 +35,7 @@ Nesta Stack, criamos:
 
 ---
 
-## 📝 Passo a Passo da Implementação
+## Passo a Passo da Implementação
 
 1. **Criação do Template YAML**
 
@@ -88,7 +88,7 @@ Nesta Stack, criamos:
 
 ---
 
-## 💡 Insights e Dicas
+## Insights e Dicas
 
 * **Automatização completa:** facilita replicar ambientes rapidamente.
 * **Parâmetros tornam a Stack flexível:** permite mudanças sem alterar o YAML.
@@ -99,7 +99,7 @@ Nesta Stack, criamos:
 
 ---
 
-## 📂 Estrutura do Repositório
+## Estrutura do Repositório
 
 ```
 aws-cloudformation-lab-2/
@@ -108,5 +108,7 @@ aws-cloudformation-lab-2/
 ├── README.md                  # Este arquivo
 └── notas-de-estudo.md         # Anotações e insights do laboratório
 
-Quer que eu faça isso?
+---
+*Projeto desenvolvido por Franciele Araújo como parte de um laboratório prático sobre AWS CloudFormation.*
+
 
